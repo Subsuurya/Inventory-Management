@@ -37,10 +37,8 @@ class RegisteredUserController extends Controller
 
         // For API requests: return token
         if ($request->wantsJson() || $request->is('api/*')) {
-            $token = $user->createToken('auth-token')->plainTextToken;
             return response()->json([
-                'user' => $user,
-                'token' => $token
+                'user' => $user, 
             ], 201);
         }
 
