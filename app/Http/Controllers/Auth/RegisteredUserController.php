@@ -35,10 +35,10 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        // For API requests: return token
+        // For API requests: return user only (no token; client must call login to get a token)
         if ($request->wantsJson() || $request->is('api/*')) {
             return response()->json([
-                'user' => $user, 
+                'user' => $user,
             ], 201);
         }
 
