@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DummyTableController;
+use App\Http\Controllers\InventoryBatchController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +30,10 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 
 // Inventory resources
 Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('customers', CustomerController::class);
+    Route::apiResource('inventory-batches', InventoryBatchController::class);
     Route::apiResource('products', ProductController::class);
+    Route::apiResource('purchase-orders', PurchaseOrderController::class);
     Route::apiResource('suppliers', SupplierController::class);
     Route::apiResource('dummy-tables', DummyTableController::class);
 });
