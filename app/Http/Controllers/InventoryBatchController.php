@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreInventoryBatchRequest;
 use App\Http\Requests\UpdateInventoryBatchRequest;
 use App\Models\InventoryBatch;
+use App\Models\InventoryMovement;
 use Illuminate\Http\JsonResponse;
 
 class InventoryBatchController extends Controller
@@ -22,6 +23,16 @@ class InventoryBatchController extends Controller
     public function store(StoreInventoryBatchRequest $request): JsonResponse
     {
         $batch = InventoryBatch::create($request->validated());
+
+        InventoryMovement::create([
+            'product_id' => $batch->product_id,
+            'inventory_batch_id' => $batch->id,
+            'movement_type' => 'IN',
+            'quantity' => $batch->quantity_received,
+            'reference_type' => $batch->purchase_order_id ? 'purchase_order' : null,
+            'reference_id' => $batch->purchase_order_id,
+        ]);
+
         $batch->load(['product', 'supplier', 'purchaseOrder']);
 
         return response()->json($batch, 201);

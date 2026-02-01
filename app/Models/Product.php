@@ -26,5 +26,15 @@ class Product extends Model
     {
         return $this->hasMany(InventoryBatch::class);
     }
+
+    public function salesItems(): HasMany
+    {
+        return $this->hasMany(SalesItem::class);
+    }
+
+    public function inventoryMovements(): HasMany
+    {
+        return $this->hasMany(InventoryMovement::class);
+    }
 }
 
